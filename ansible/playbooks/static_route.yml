@@ -1,0 +1,10 @@
+---
+- name: Configure static routes on CSR1000v routers
+  hosts: csr
+  gather_facts: no
+
+  tasks:
+    - name: Configure static route
+      ios_config:
+        lines:
+          - "{{ static_route }}"
