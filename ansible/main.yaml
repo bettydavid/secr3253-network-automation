@@ -1,1 +1,14 @@
+- name: MAIN NETWORK AUTOMATION PROJECT
+  hosts: routers
+  gather_facts: no
 
+  tasks:
+
+    - name: Run IP configuration playbook
+      import_playbook: playbooks/ip_config.yml
+
+    - name: Run banner configuration playbook
+      import_playbook: playbooks/banner.yml
+
+    - name: Run base setup playbook
+      import_playbook: playbooks/base_setup.yml
