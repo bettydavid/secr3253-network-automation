@@ -1,1 +1,24 @@
+- name: Static Routing
+  hosts: routers
+  gather_facts: no
 
+  tasks:
+
+    - name: Configure route on R1
+      ansible.builtin.raw:
+        _raw_params: "ip route 192.168.20.0 255.255.255.0 10.0.12.2"
+      when: inventory_hostname == "R1"
+
+    - name: Configure route on R2
+      ansible.builtin.raw:
+        _raw_params: "ip route 192.168.10.0 255.255.255.0 10.0.12.1"
+      when: inventory_hostname == "R2"
+
+    - name: Verify routing
+      ansible.builtin.raw:
+        _raw_params: "show ip route"
+      register: output
+
+    - debug:
+        var: output.stdout
+        
