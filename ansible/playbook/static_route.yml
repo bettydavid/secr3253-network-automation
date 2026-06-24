@@ -1,1 +1,17 @@
+---
+- name: Configure static routes on routers
+  hosts: routers
+  gather_facts: no
 
+  tasks:
+    - name: Configure static route on R1
+      cisco.ios.ios_config:
+        lines:
+          - ip route 192.168.20.0 255.255.255.0 10.0.12.2
+      when: inventory_hostname == "R1"
+
+    - name: Configure static route on R2
+      cisco.ios.ios_config:
+        lines:
+          - ip route 192.168.10.0 255.255.255.0 10.0.12.1
+      when: inventory_hostname == "R2"
