@@ -1,14 +1,11 @@
-- name: MAIN NETWORK AUTOMATION PROJECT
+- name: Network Automation Main Controller
   hosts: routers
   gather_facts: no
 
   tasks:
 
-    - name: Run IP configuration playbook
-      import_playbook: playbooks/ip_config.yml
+    - name: Run device info collection
+      import_playbook: playbooks/device_info.yml
 
-    - name: Run banner configuration playbook
-      import_playbook: playbooks/banner.yml
-
-    - name: Run base setup playbook
-      import_playbook: playbooks/base_setup.yml
+    - name: Run static route config
+      import_playbook: playbooks/static_route.yml
