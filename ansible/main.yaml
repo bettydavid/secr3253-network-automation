@@ -5,7 +5,7 @@
   tasks:
 
     - name: Run device info collection
-      import_playbook: playbooks/device_info.yml
+      import_playbook: playbook/device_info.yml
 
     - name: Run static route config
-      import_playbook: playbooks/static_route.yml
+      import_playbook: playbook/static_route.yml
