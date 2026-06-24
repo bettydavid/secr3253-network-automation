@@ -1,1 +1,16 @@
+- name: Banner Setup
+  hosts: routers
+  gather_facts: no
 
+  tasks:
+
+    - name: Configure banner
+      command: "banner motd # Unauthorized Access Prohibited #"
+
+    - name: Verify banner
+      command: "show running-config | include banner"
+      register: output
+
+    - debug:
+        var: output.stdout
+        
