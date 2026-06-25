@@ -1,1 +1,19 @@
+- name: Base Setup Check
+  hosts: routers
+  gather_facts: no
 
+  tasks:
+
+    - name: Show hostname
+      command: "show running-config | include hostname"
+      register: host
+
+    - debug:
+        var: host.stdout
+
+    - name: Show version
+      command: "show version"
+      register: sys
+
+    - debug:
+        var: sys.stdout

@@ -1,19 +1,15 @@
----
-- name: Retrieve device information from routers
+- name: Device Information
   hosts: routers
   gather_facts: no
 
   tasks:
-    - name: Gather IOS facts
-      cisco.ios.ios_facts:
 
-    - name: Display device information
+    - name: Show device version
+      cisco.ios.ios_command:
+        commands:
+          - show version
+      register: output
+
+    - name: Display output
       debug:
-        msg:
-          - "Device: {{ inventory_hostname }}"
-          - "Hostname: {{ ansible_net_hostname }}"
-          - "Model: {{ ansible_net_model }}"
-          - "Version: {{ ansible_net_version }}"
-          - "Serial: {{ ansible_net_serialnum }}"
-          - "Image: {{ ansible_net_image }}"
-          - "Architecture: {{ ansible_net_iostype }}"
+	var:output.stdout[0]
