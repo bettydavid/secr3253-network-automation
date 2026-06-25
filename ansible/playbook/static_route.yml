@@ -25,3 +25,12 @@
     - name: Display routing table
       debug:
         var: route_output.stdout
+
+    - name: Verify routing table
+      cisco.ios.ios_command:
+        commands:
+          - show ip route
+      register: route_output
+
+    - debug:
+        var: route_output.stdout
