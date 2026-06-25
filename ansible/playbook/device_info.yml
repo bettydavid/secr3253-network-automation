@@ -16,3 +16,4 @@
           - "Version: {{ ansible_net_version }}"
           - "Serial: {{ ansible_net_serialnum }}"
           - "Image: {{ ansible_net_image }}"
+          - "Architecture: {{ ansible_net_iostype }}"
