@@ -15,3 +15,13 @@
         lines:
           - ip route 192.168.10.0 255.255.255.0 10.0.12.1
       when: inventory_hostname == "R2"
+    
+    - name: Verify routing table
+      cisco.ios.ios_command:
+        commands:
+          - show ip route
+      register: route_output
+
+    - name: Display routing table
+      debug:
+        var: route_output.stdout
