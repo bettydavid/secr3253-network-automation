@@ -13,15 +13,20 @@
           - no shutdown
       when: inventory_hostname == "R1"
 
+    - name: Configure R2 IP
+      cisco.ios.ios_config:
+        parents: interface GigabitEthernet1
+        lines:
+          - ip address 10.0.12.2 255.255.255.252
+          - no shutdown
+      when: inventory_hostname == "R2"
+
     - name: Verify interfaces
       cisco.ios.ios_command:
         commands:
           - show ip interface brief
       register: output
-      when: inventory_hostname == "R1"
 
     - name: Display output
       debug:
         var: output.stdout
-      when: inventory_hostname == "R1"
-      

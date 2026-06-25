@@ -1,0 +1,15 @@
+---
+- name: Validate R2
+  hosts: R2
+  gather_facts: no
+
+  tasks:
+
+    - name: Show interfaces
+      cisco.ios.ios_command:
+        commands:
+          - show ip interface brief
+      register: output
+
+    - debug:
+        var: output.stdout
