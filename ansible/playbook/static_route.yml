@@ -1,21 +1,20 @@
----
 - name: Configure static routes on routers
   hosts: routers
   gather_facts: no
 
   tasks:
 
-    - name: Configure static route on R1
-      cisco.ios.ios_config:
-        lines:
-          - ip route 192.168.20.0 255.255.255.0 10.0.12.2
+    - name: Static route on R1 (to R2 LAN)
       when: inventory_hostname == "R1"
-
-    - name: Configure static route on R2
       cisco.ios.ios_config:
         lines:
-          - ip route 192.168.10.0 255.255.255.0 10.0.12.1
+          - ip route 192.168.56.0 255.255.255.0 10.0.12.2
+
+    - name: Static route on R2 (to R1 network)
       when: inventory_hostname == "R2"
+      cisco.ios.ios_config:
+        lines:
+          - ip route 10.0.12.0 255.255.255.252 10.0.12.1
 
     - name: Verify routing table
       cisco.ios.ios_command:
@@ -25,4 +24,4 @@
 
     - name: Display routing table
       debug:
-        var: route_output.stdout
+        var: route_output.stdout[0]

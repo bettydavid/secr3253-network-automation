@@ -1,32 +1,28 @@
----
 - name: IP Configuration
   hosts: routers
   gather_facts: no
 
   tasks:
 
-    - name: Configure R1 IP
+    - name: Configure R1 interface
+      when: inventory_hostname == "R1"
       cisco.ios.ios_config:
-        parents: interface GigabitEthernet1
         lines:
+          - interface GigabitEthernet1
           - ip address 10.0.12.1 255.255.255.252
           - no shutdown
-      when: inventory_hostname == "R1"
 
-    - name: Configure R2 IP
-      cisco.ios.ios_config:
-        parents: interface GigabitEthernet2
-        lines:
-          - ip address 10.0.12.2 255.255.255.252
-          - no shutdown
+    - name: Configure R2 interface (SSH network)
       when: inventory_hostname == "R2"
+      cisco.ios.ios_config:
+        lines:
+          - interface GigabitEthernet1
+          - ip address 192.168.56.102 255.255.255.0
+          - no shutdown
 
-    - name: Verify interfaces
-      cisco.ios.ios_command:
-        commands:
-          - show ip interface brief
-      register: output
-
-    - name: Display output
-      debug:
-        var: output.stdout
+    - name: Add R2 simulated network (loopback)
+      when: inventory_hostname == "R2"
+      cisco.ios.ios_config:
+        lines:
+          - interface Loopback0
+          - ip address 10.0.12.2 255.255.255.252
